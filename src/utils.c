@@ -246,7 +246,8 @@ ss_align(size_t size)
     int err;
     void *tmp = NULL;
 #ifdef HAVE_POSIX_MEMALIGN
-    err = posix_memalign(&tmp, sizeof(void *), size);
+    /* ensure 16 byte alignment */
+    err = posix_memalign(&tmp, 16, size);
 #else
     err = -1;
 #endif
@@ -387,6 +388,8 @@ usage()
 #ifdef MODULE_MANAGER
     printf(
         "       [--executable <path>]      Path to the executable of ss-server.\n");
+    printf(
+        "       [-D <path>]                Path to the working directory of ss-manager.\n");
 #endif
     printf(
         "       [--mtu <MTU>]              MTU of your network interface.\n");
